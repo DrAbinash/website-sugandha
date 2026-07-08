@@ -23,11 +23,11 @@ export function Facilities() {
             id="facilities-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            Modern Infrastructure for Safe Outcomes
+            Modern Infrastructure for Accurate Diagnosis
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            A fully equipped multi-speciality hospital with advanced operating
-            theatres, neuro-ICU, and patient-friendly consultation spaces.
+            A fully equipped diagnostic imaging centre with advanced MRI, CT,
+            ultrasound, and digital X-ray facilities for comprehensive care.
           </p>
         </div>
 

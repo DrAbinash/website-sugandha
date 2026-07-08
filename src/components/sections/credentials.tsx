@@ -23,11 +23,11 @@ export function Credentials() {
             id="credentials-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            A Foundation of Rigorous Training
+            A Foundation of Rigorous Medical Training
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            Years of dedicated surgical and super-specialty training form the
-            backbone of safe, evidence-based neurosurgical care.
+            Years of dedicated medical education and specialist training form the
+            backbone of accurate, evidence-based diagnostic imaging.
           </p>
         </div>
 

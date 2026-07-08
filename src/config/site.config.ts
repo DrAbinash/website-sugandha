@@ -10,9 +10,9 @@ export const siteConfig = {
     longBio: [
       "Dr. Sugandha Priyadarshini is a Consultant Radiologist with an MD in Radiology, dedicated to providing accurate and timely diagnostic imaging services. Her expertise spans the full spectrum of radiology, with a special focus on women's imaging and high-field 3 Tesla MRI reporting.",
       "She is skilled in interpreting MRI, CT, ultrasound, and X-ray studies, with particular interest in neuroimaging, abdominal imaging, and women's health imaging including breast imaging and obstetric ultrasound. Her reporting is known for its precision and clinical correlation.",
-      "At Care Diagnostics & Hope NeuroTrauma Hospital, Dr. Priyadarshini works alongside Dr. Abinash Kumar, providing the imaging backbone that supports neurosurgical and multi-speciality care. Her 3T MRI reporting ensures the highest image quality for accurate diagnosis.",
+      "At Care Diagnostics, Dr. Priyadarshini provides comprehensive diagnostic imaging services supporting neurosurgical and multi-speciality care at Hope NeuroTrauma Hospital. Her 3T MRI reporting ensures the highest image quality for accurate diagnosis.",
     ],
-    photo: "/doctor-placeholder.svg",
+    photo: "/doctor-photo.png",
     yearsOfExperience: 8,
   },
   hospital: {
@@ -34,7 +34,7 @@ export const siteConfig = {
     phoneHref: "+919000000000",
     emergency: "+91 90000 00000",
     emergencyHref: "+919000000000",
-    email: "care@hopeneurotrauma.in",
+    email: "care@carediagnostics.in",
     whatsapp: "+919000000000",
     whatsappMessage: "Hello, I would like to book a radiology consultation.",
   },

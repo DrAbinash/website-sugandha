@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const trustItems = [
-  { icon: ShieldCheck, label: "M.Ch. Neurosurgery" },
-  { icon: Star, label: "10+ Years Experience" },
-  { icon: ShieldCheck, label: "24×7 Neurotrauma Cover" },
+  { icon: ShieldCheck, label: "MD Radiology" },
+  { icon: Star, label: "8+ Years Experience" },
+  { icon: ShieldCheck, label: "3T MRI Specialist" },
 ];
 
 export function Hero() {
@@ -147,7 +147,7 @@ export function Hero() {
             <div className="relative overflow-hidden rounded-3xl border border-emerald-100 bg-white shadow-2xl shadow-emerald-900/10">
               <img
                 src="/hero-radiology.png"
-                alt="Illustration of the human brain symbolising neurosurgical care"
+                alt="Advanced diagnostic imaging equipment at Care Diagnostics"
                 className="aspect-[4/5] w-full object-cover sm:aspect-[5/4] md:aspect-[4/5]"
                 loading="eager"
               />
@@ -182,10 +182,10 @@ export function Hero() {
               className="absolute -right-4 bottom-6 hidden rounded-2xl border border-border/60 bg-background/95 p-4 shadow-xl backdrop-blur-sm sm:block"
             >
               <p className="text-2xl font-extrabold text-emerald-700">
-                2000<span className="text-base align-top">+</span>
+                20000<span className="text-base align-top">+</span>
               </p>
               <p className="text-xs text-muted-foreground">
-                Neuro &amp; Spine Surgeries
+                Imaging Studies Reported
               </p>
             </motion.div>
           </motion.div>

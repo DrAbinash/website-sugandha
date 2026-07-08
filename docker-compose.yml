@@ -1,17 +1,17 @@
 services:
-  hope-neurotrauma-website:
-    container_name: hope-neurotrauma-website
+  care-diagnostics-website:
+    container_name: care-diagnostics-website
     build: .
-    image: hope-neurotrauma:latest
+    image: care-diagnostics:latest
     restart: unless-stopped
     ports:
-      - "3008:3000"
+      - "3009:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=file:/app/data/hospital.db
-      - NEXT_PUBLIC_SITE_URL=https://hopeneurotrauma.in
+      - DATABASE_URL=file:/app/data/care_diagnostics.db
+      - NEXT_PUBLIC_SITE_URL=https://carediagnostics.in
     volumes:
-      - hope-neuro-data:/app/data
+      - care-diagnostics-data:/app/data
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
@@ -25,5 +25,5 @@ services:
         max-file: "3"
 
 volumes:
-  hope-neuro-data:
-    name: hope-neuro-data
+  care-diagnostics-data:
+    name: care-diagnostics-data

@@ -1,5 +1,5 @@
 # ============================================================================
-#  Dockerfile — Dr. Abinash Kumar website (Next.js standalone)
+#  Dockerfile — Care Diagnostics website (Dr. Sugandha Priyadarshini)
 #  Optimised for Synology Container Manager.
 #  Uses npm instead of bun for Prisma compatibility in Docker.
 # ============================================================================
@@ -30,7 +30,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
-ENV DATABASE_URL="file:/app/data/hospital.db"
+ENV DATABASE_URL="file:/app/data/care_diagnostics.db"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends openssl \

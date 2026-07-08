@@ -100,7 +100,7 @@ cd website-sugandha
 
 # Create .env file
 cat > .env << 'EOF'
-DATABASE_URL="file:/app/data/hospital.db"
+DATABASE_URL="file:/app/data/care_diagnostics.db"
 NEXT_PUBLIC_SITE_URL="https://carediagnostics.in"
 EOF
 

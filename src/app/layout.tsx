@@ -49,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       {
         "@type": "Physician",
         name: siteConfig.doctor.name,
-        medicalSpecialty: "Neurosurgery",
+        medicalSpecialty: "Radiology",
         jobTitle: siteConfig.doctor.title,
         worksFor: { "@type": "MedicalClinic", name: siteConfig.hospital.name },
         address: {

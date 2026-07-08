@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
 
 type ContactPayload = {
   name?: string;
@@ -32,8 +33,14 @@ export async function POST(request: Request) {
     );
   }
 
-  // In a production deployment you would forward this to email / CRM here.
-  // For now we just log it server-side so the submission is preserved.
+  try {
+    await db.contactSubmission.create({
+      data: { name, phone, email: email || null, subject: subject || null, message },
+    });
+  } catch (error) {
+    console.error("[contact] db save failed", error);
+  }
+
   console.log("[contact] new enquiry", {
     name,
     phone,

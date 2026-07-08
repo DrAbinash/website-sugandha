@@ -30,7 +30,7 @@ export function Location() {
     {
       icon: Ambulance,
       title: "Emergency 24×7",
-      lines: [siteConfig.contact.emergency, "Head & spine injury"],
+      lines: [siteConfig.contact.emergency, "Emergency imaging services"],
       href: `tel:${siteConfig.contact.emergencyHref}`,
       cta: "Call emergency",
     },
@@ -55,7 +55,7 @@ export function Location() {
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
             Conveniently located in Castairs Town, Deoghar — serving the people
-            of Jharkhand with round-the-clock neurotrauma care.
+            of Jharkhand with advanced diagnostic imaging services.
           </p>
         </div>
 
@@ -69,7 +69,7 @@ export function Location() {
             className="overflow-hidden rounded-2xl border border-emerald-100 shadow-sm"
           >
             <iframe
-              title="Map showing the location of Hope NeuroTrauma Hospital, Deoghar"
+              title="Map showing the location of Care Diagnostics, Deoghar"
               src={siteConfig.hospital.mapEmbedUrl}
               className="h-72 w-full sm:h-full"
               loading="lazy"

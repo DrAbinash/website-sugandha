@@ -33,7 +33,7 @@ export function Contact() {
       title: "Emergency",
       value: siteConfig.contact.emergency,
       href: `tel:${siteConfig.contact.emergencyHref}`,
-      note: "24×7 — Head & spine injury",
+      note: "24x7 — Emergency imaging",
       accent: "text-red-600 bg-red-50",
     },
     {
@@ -136,7 +136,7 @@ export function Contact() {
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
             Send us a message and our team will get back to you to schedule your
-            consultation with Dr. Abinash Kumar.
+            consultation with Dr. Sugandha Priyadarshini.
           </p>
         </div>
 
@@ -223,7 +223,7 @@ export function Contact() {
                     <Textarea
                       id="message"
                       name="message"
-                      placeholder="Briefly describe your symptoms or what you'd like to discuss with Dr. Abinash Kumar."
+                      placeholder="Briefly describe your symptoms or what you'd like to discuss with Dr. Sugandha Priyadarshini."
                       rows={5}
                       required
                     />

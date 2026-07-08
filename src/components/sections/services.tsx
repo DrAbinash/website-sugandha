@@ -23,11 +23,11 @@ export function Services() {
             id="services-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            Comprehensive Neurosurgical Services
+            Comprehensive Diagnostic Imaging Services
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            From complex brain tumours to chronic back pain — expert diagnosis
-            and surgical care for the full spectrum of neurosurgical conditions.
+            From advanced 3T MRI to routine X-rays — expert imaging and
+            accurate reporting for the full spectrum of diagnostic needs.
           </p>
         </div>
 
@@ -63,10 +63,10 @@ export function Services() {
             <CardContent className="flex flex-col items-center gap-3 py-5 text-center sm:flex-row sm:justify-between sm:text-left">
               <div>
                 <p className="text-base font-semibold">
-                  Not sure if your condition needs a neurosurgeon?
+                  Not sure which imaging study you need?
                 </p>
                 <p className="text-sm text-emerald-100/90">
-                  Get an honest, no-pressure consultation from Dr. Abinash Kumar.
+                  Get an honest, no-pressure consultation from Dr. Sugandha Priyadarshini.
                 </p>
               </div>
               <a

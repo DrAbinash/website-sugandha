@@ -23,11 +23,11 @@ export function Expertise() {
             id="expertise-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            Specialized Neurosurgical Care
+            Specialized Diagnostic Imaging
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            Comprehensive expertise across brain, spine, and neurotrauma —
-            delivered with precision and compassion.
+            Comprehensive expertise across MRI, CT, ultrasound, and X-ray
+            imaging — delivered with precision and compassion.
           </p>
         </div>
 
