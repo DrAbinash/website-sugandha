@@ -94,7 +94,7 @@ export const siteConfig = {
     { label: "Location", href: "#location" },
     { label: "Contact", href: "#contact" },
   ],
-  theme: { primary: "#0d9488", primaryDark: "#0f766e", accent: "#d97706" },
-} as const;
+  theme: { primary: "#a34355", primaryDark: "#853a49", accent: "#c9a24b" },
+};
 
 export type SiteConfig = typeof siteConfig;

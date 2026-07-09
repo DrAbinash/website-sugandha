@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, useInView, useMotionValue, animate } from "framer-motion";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 
 function Counter({
   value,
@@ -38,6 +38,7 @@ function Counter({
 }
 
 export function Stats() {
+  const siteConfig = useSiteConfig();
   return (
     <section
       aria-label="Practice statistics"

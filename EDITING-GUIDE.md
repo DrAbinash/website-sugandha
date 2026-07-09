@@ -1,150 +1,83 @@
-# How to Edit Your Website
+# How to Edit Your Website — The Easy Way
 
-Everything on this website is controlled by **one file**. You don't need to know coding — just open the file, find the text you want to change, and edit it.
+Your website now has a built-in **Settings panel**. You no longer need to edit
+code files or rebuild Docker to change content or photos.
 
 ---
 
-## The One File: `src/config/site.config.ts`
+## 1. Open the Settings panel
 
-This file contains ALL the content — your name, qualifications, phone, services, timings, photos, everything. Change a value here, rebuild, and the website updates.
+In your browser, go to:
 
-### Where is it?
-```
-src/config/site.config.ts
-```
+- On the clinic network: `http://192.168.1.137:3009/admin`
+- From the internet: `https://carediagnostics.in/admin`
 
-### How to edit it on your Synology
+Log in with the admin password.
+
+> **First time:** the temporary password is `sugandha2026`.
+> Change it soon — see section 4 below.
+
+## 2. What you can change (everything!)
+
+The panel has six tabs:
+
+| Tab | What's inside |
+|---|---|
+| **Doctor & About** | Name, qualifications, title, tagline, intro, about paragraphs, degrees, **doctor's photo** |
+| **Contact & Hours** | Phone, emergency number, email, WhatsApp, OPD timings |
+| **Hospital & Map** | Hospital name, address, Google Maps links |
+| **Services & Expertise** | The 6 service cards, investigation tags, "why choose us" highlights |
+| **Photos & Facilities** | The facility photo cards — upload new photos, edit titles |
+| **Stats & Social** | The numbers (years, cases), social media links |
+
+Edit anything, then press **Save changes** at the bottom.
+Refresh the website — your changes appear **immediately, no rebuild needed**.
+
+## 3. Changing photos
+
+1. Go to **Doctor & About** (for the doctor's photo) or **Photos & Facilities** (for facility photos).
+2. Click **Change photo** and pick an image from your computer or phone.
+3. Press **Save changes**.
+
+Photos are stored inside the Docker data volume (`/app/data/uploads`), so they
+survive container rebuilds and updates.
+
+## 4. Changing the admin password (do this once)
+
+On the Synology:
 
 ```bash
 cd /volume1/docker/website-sugandha
-vi src/config/site.config.ts
+vi docker-compose.yml
 ```
 
-Press `i` to edit, `Esc` + `:wq` to save. Then rebuild:
-```bash
-docker compose up -d --build
+Find the line:
+
+```
+- ADMIN_PASSWORD=sugandha2026
 ```
 
----
-
-## What You Can Change (and where)
-
-| What you want to change | Look for in the file |
-|------------------------|---------------------|
-| Doctor name | `name: "Dr. Sugandha Priyadarshini"` |
-| Qualifications | `qualifications: ["MBBS", "MD (Radiology)"]` |
-| Title | `title: "Consultant Radiologist"` |
-| Phone number | `phone:` and `phoneHref:` (digits only, no spaces) |
-| Emergency number | `emergency:` and `emergencyHref:` |
-| Email | `email:` |
-| WhatsApp | `whatsapp:` (digits only) |
-| Hospital name | `hospital.name` |
-| Hospital address | `hospital.address` |
-| OPD timings | `timings` array |
-| Services/specializations | `specializations` array |
-| Conditions treated | `conditions` array |
-| Stats (years, cases) | `stats` array |
-| Social media links | `social` object |
-
----
-
-## How to Change Photos
-
-### Doctor's photo
-1. Put your photo in the `public/` folder (name it `doctor.jpg`)
-2. In `site.config.ts`, change:
-   ```
-   photo: "/doctor-placeholder.svg"
-   ```
-   to:
-   ```
-   photo: "/doctor.jpg"
-   ```
-3. Rebuild: `docker compose up -d --build`
-
-### Facility/gallery images
-The 4 gallery images are in `public/`:
-- `gallery-ot.jpg` → Operation Theatre / MRI Suite
-- `gallery-icu.jpg` → CT Scan / ICU
-- `gallery-consult.jpg` → Consultation room
-- `gallery-hospital.jpg` → Hospital building
-
-Replace these files with your own photos (keep the same filenames), then rebuild.
-
-### Hero image (the big image at the top)
-- File: `public/hero-radiology.png`
-- Replace it with your own image (keep the same filename), then rebuild.
-
-### Logo / Favicon
-- File: `public/favicon.svg`
-- Replace it with your own logo, then rebuild.
-
----
-
-## How to Change Colors
-
-The theme color is teal (#0d9488). To change it, edit `src/app/globals.css` and look for the `--primary` line:
-```
---primary: oklch(0.55 0.13 180);
-```
-Change the numbers to get a different color. Then rebuild.
-
----
-
-## Deploy on Synology (first time)
+Change it to your own secret password, save (`Esc` then `:wq`), then:
 
 ```bash
-cd /volume1/docker
-git clone https://github.com/DrAbinash/website-sugandha.git website-sugandha
-cd website-sugandha
-
-# Create .env file
-cat > .env << 'EOF'
-DATABASE_URL="file:/app/data/care_diagnostics.db"
-NEXT_PUBLIC_SITE_URL="https://carediagnostics.in"
-EOF
-
-# Build and start
-docker compose up -d --build
+docker compose up -d
 ```
 
-Open: `http://<nas-ip>:3009`
+(No rebuild needed — restarting applies the new password.)
+
+## 5. Made a mess? Reset
+
+In the panel, go to **Stats & Social → Danger zone → Reset website to
+original content**. All edits are removed and the original built-in content
+returns. Uploaded photos stay saved but are no longer shown.
 
 ---
 
-## Update after editing
+## For reference: the old way still works
 
-```bash
-cd /volume1/docker/website-sugandha
-git pull                          # if you edited on GitHub
-docker compose up -d --build      # rebuild with changes
-```
+The file `src/config/site.config.ts` still holds the **default** content —
+what the website shows before any edits are made in the panel.
+Anything you save in the panel **overrides** those defaults.
 
----
-
-## Quick reference: common edits
-
-### Change phone number
-In `site.config.ts`:
-```
-phone: "+91 98765 43210",
-phoneHref: "+919876543210",
-emergency: "+91 98765 43210",
-emergencyHref: "+919876543210",
-```
-
-### Add a new service
-In the `specializations` array, add:
-```
-{
-  icon: "Stethoscope",        // any Lucide icon name
-  title: "New Service Name",
-  description: "Description of the service.",
-},
-```
-
-### Change OPD timing
-In the `timings` array:
-```
-{ day: "Monday", hours: "10:00 AM – 6:00 PM" },
-```
+If you ever edit the config file directly, note that panel edits win. Use
+"Reset" in the panel first if you want the config file's content to show.

@@ -3,11 +3,12 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function Facilities() {
+  const siteConfig = useSiteConfig();
   return (
     <section
       id="facilities"

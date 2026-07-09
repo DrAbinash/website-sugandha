@@ -10,6 +10,11 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=file:/app/data/care_diagnostics.db
       - NEXT_PUBLIC_SITE_URL=https://carediagnostics.in
+      # Password for the /admin settings panel — CHANGE THIS to your own!
+      - ADMIN_PASSWORD=sugandha2026
+      # Uploaded photos are stored here (same volume as the database,
+      # so they survive rebuilds)
+      - UPLOADS_DIR=/app/data/uploads
     volumes:
       - care-diagnostics-data:/app/data
     healthcheck:

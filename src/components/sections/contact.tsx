@@ -12,7 +12,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function Contact() {
+  const siteConfig = useSiteConfig();
   const { toast } = useToast();
   const [status, setStatus] = React.useState<Status>("idle");
 

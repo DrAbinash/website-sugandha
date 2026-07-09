@@ -4,17 +4,18 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Ambulance, ShieldCheck, Star } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const trustItems = [
-  { icon: ShieldCheck, label: "MD Radiology" },
-  { icon: Star, label: "8+ Years Experience" },
-  { icon: ShieldCheck, label: "3T MRI Specialist" },
-];
-
 export function Hero() {
+  const siteConfig = useSiteConfig();
+
+  const trustItems = [
+    { icon: ShieldCheck, label: siteConfig.doctor.qualifications.slice(-1)[0] ?? "MD Radiology" },
+    { icon: Star, label: `${siteConfig.doctor.yearsOfExperience}+ Years Experience` },
+    { icon: ShieldCheck, label: "3T MRI Specialist" },
+  ];
   return (
     <section
       id="home"

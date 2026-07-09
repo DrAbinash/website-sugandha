@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu, Phone, Calendar, Ambulance, ChevronRight } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +42,7 @@ function BrandLogo({ className }: { className?: string }) {
 }
 
 export function Navbar() {
+  const siteConfig = useSiteConfig();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 

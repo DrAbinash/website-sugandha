@@ -2,12 +2,13 @@
 
 import { motion } from "framer-motion";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 import { getIcon } from "@/components/icon-map";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export function Expertise() {
+  const siteConfig = useSiteConfig();
   return (
     <section
       id="expertise"

@@ -17,3 +17,11 @@ model ContactSubmission {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Stores the admin-edited website content as a single JSON blob.
+// There is only ever one row, with id = "site".
+model SiteSetting {
+  id        String   @id
+  json      String
+  updatedAt DateTime @updatedAt
+}

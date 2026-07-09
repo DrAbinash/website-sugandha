@@ -13,7 +13,7 @@ import {
   Twitter,
 } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 
 function BrandLogo({ className }: { className?: string }) {
   return (
@@ -41,6 +41,7 @@ function BrandLogo({ className }: { className?: string }) {
 }
 
 export function Footer() {
+  const siteConfig = useSiteConfig();
   const socialLinks = [
     { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
     { icon: Instagram, href: siteConfig.social.instagram, label: "Instagram" },

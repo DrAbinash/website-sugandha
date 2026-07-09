@@ -4,9 +4,10 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, MessageCircle } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 
 export function FloatingCta() {
+  const siteConfig = useSiteConfig();
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {

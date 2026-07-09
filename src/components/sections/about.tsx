@@ -3,12 +3,13 @@
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, Phone } from "lucide-react";
 
-import { siteConfig } from "@/config/site.config";
+import { useSiteConfig } from "@/components/site-config-context";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export function About() {
+  const siteConfig = useSiteConfig();
   return (
     <section
       id="about"
