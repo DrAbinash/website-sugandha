@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function Location() {
   const siteConfig = useSiteConfig();
+  const section = siteConfig.sections.location;
   const contactCards = [
     {
       icon: MapPin,
@@ -37,6 +38,8 @@ export function Location() {
     },
   ];
 
+  if (section.visible === false) return null;
+
   return (
     <section
       id="location"
@@ -45,18 +48,17 @@ export function Location() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="mb-3 bg-emerald-100 text-emerald-800">
-            Location &amp; Hours
+          <Badge variant="secondary" className="mb-3 bg-brand/10 text-brand-deep">
+            {section.badge}
           </Badge>
           <h2
             id="location-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            Find Us in Deoghar
+            {section.heading}
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            Conveniently located in Castairs Town, Deoghar — serving the people
-            of Jharkhand with advanced diagnostic imaging services.
+            {section.subheading}
           </p>
         </div>
 
@@ -67,10 +69,10 @@ export function Location() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5 }}
-            className="overflow-hidden rounded-2xl border border-emerald-100 shadow-sm"
+            className="overflow-hidden rounded-2xl border border-brand/15 shadow-sm"
           >
             <iframe
-              title="Map showing the location of Care Diagnostics, Deoghar"
+              title={`Map showing the location of ${siteConfig.hospital.shortName}`}
               src={siteConfig.hospital.mapEmbedUrl}
               className="h-72 w-full sm:h-full"
               loading="lazy"
@@ -89,9 +91,9 @@ export function Location() {
           >
             <div className="grid gap-3 sm:grid-cols-3">
               {contactCards.map((c) => (
-                <Card key={c.title} className="border-emerald-100">
+                <Card key={c.title} className="border-brand/15">
                   <CardContent className="flex flex-col gap-2 py-4">
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                    <div className="flex size-9 items-center justify-center rounded-lg bg-brand/10 text-brand-dark">
                       <c.icon className="size-4" />
                     </div>
                     <p className="text-sm font-semibold text-foreground">
@@ -111,7 +113,7 @@ export function Location() {
                       href={c.href}
                       target={c.href.startsWith("http") ? "_blank" : undefined}
                       rel={c.href.startsWith("http") ? "noreferrer" : undefined}
-                      className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline"
+                      className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-brand-dark hover:underline"
                     >
                       {c.cta}
                       <ArrowUpRight className="size-3" />
@@ -121,10 +123,10 @@ export function Location() {
               ))}
             </div>
 
-            <Card className="border-emerald-100">
+            <Card className="border-brand/15">
               <CardContent className="py-4">
                 <div className="mb-3 flex items-center gap-2">
-                  <Clock className="size-4 text-emerald-700" />
+                  <Clock className="size-4 text-brand-dark" />
                   <p className="text-sm font-semibold text-foreground">
                     OPD Timings
                   </p>
@@ -151,7 +153,7 @@ export function Location() {
                 <div className="mt-4 flex flex-wrap gap-2">
                   <a
                     href={`mailto:${siteConfig.contact.email}`}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-800 hover:bg-emerald-100"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-brand/20 bg-brand/5 px-3 py-1.5 text-xs font-medium text-brand-deep hover:bg-brand/10"
                   >
                     <Mail className="size-3.5" />
                     {siteConfig.contact.email}
@@ -160,7 +162,7 @@ export function Location() {
                     href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-800 hover:bg-emerald-100"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-brand/20 bg-brand/5 px-3 py-1.5 text-xs font-medium text-brand-deep hover:bg-brand/10"
                   >
                     <MessageCircle className="size-3.5" />
                     WhatsApp Us

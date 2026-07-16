@@ -10,6 +10,7 @@ import {
   Send,
   Loader2,
   CheckCircle2,
+  CalendarCheck,
 } from "lucide-react";
 
 import { useSiteConfig } from "@/components/site-config-context";
@@ -25,8 +26,10 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export function Contact() {
   const siteConfig = useSiteConfig();
+  const section = siteConfig.sections.contact;
   const { toast } = useToast();
   const [status, setStatus] = React.useState<Status>("idle");
+  const bookingExternal = siteConfig.booking.url.startsWith("http");
 
   const contactCards = [
     {
@@ -43,7 +46,7 @@ export function Contact() {
       value: siteConfig.contact.phone,
       href: `tel:${siteConfig.contact.phoneHref}`,
       note: "Mon–Sat, OPD hours",
-      accent: "text-emerald-700 bg-emerald-100",
+      accent: "text-brand-dark bg-brand/10",
     },
     {
       icon: Mail,
@@ -51,7 +54,7 @@ export function Contact() {
       value: siteConfig.contact.email,
       href: `mailto:${siteConfig.contact.email}`,
       note: "We reply within 24 hours",
-      accent: "text-emerald-700 bg-emerald-100",
+      accent: "text-brand-dark bg-brand/10",
     },
     {
       icon: MessageCircle,
@@ -59,7 +62,7 @@ export function Contact() {
       value: siteConfig.contact.phone,
       href: `https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`,
       note: "Quick queries welcome",
-      accent: "text-emerald-700 bg-emerald-100",
+      accent: "text-brand-dark bg-brand/10",
     },
   ];
 
@@ -118,27 +121,42 @@ export function Contact() {
     }
   }
 
+  if (section.visible === false) return null;
+
   return (
     <section
       id="contact"
-      className="bg-emerald-50/40 py-16 sm:py-20 lg:py-24"
+      className="bg-brand/5 py-16 sm:py-20 lg:py-24"
       aria-labelledby="contact-heading"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="mb-3 bg-emerald-100 text-emerald-800">
-            Get in Touch
+          <Badge variant="secondary" className="mb-3 bg-brand/10 text-brand-deep">
+            {section.badge}
           </Badge>
           <h2
             id="contact-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            Book an Appointment
+            {section.heading}
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            Send us a message and our team will get back to you to schedule your
-            consultation with Dr. Sugandha Priyadarshini.
+            {section.subheading}
           </p>
+          <Button
+            asChild
+            size="lg"
+            className="mt-5 border-0 bg-brand-sheen text-white shadow-lg shadow-brand/25 hover:brightness-110"
+          >
+            <a
+              href={siteConfig.booking.url}
+              target={bookingExternal ? "_blank" : undefined}
+              rel={bookingExternal ? "noreferrer" : undefined}
+            >
+              <CalendarCheck className="size-4" />
+              Book Online Now
+            </a>
+          </Button>
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-5">
@@ -151,7 +169,7 @@ export function Contact() {
             className="grid gap-4 sm:grid-cols-2 lg:col-span-2"
           >
             {contactCards.map((c) => (
-              <Card key={c.title} className="border-emerald-100">
+              <Card key={c.title} className="border-brand/15">
                 <CardContent className="flex flex-col gap-2 py-4">
                   <div
                     className={`flex size-10 items-center justify-center rounded-xl ${c.accent}`}
@@ -165,7 +183,7 @@ export function Contact() {
                     href={c.href}
                     target={c.href.startsWith("http") ? "_blank" : undefined}
                     rel={c.href.startsWith("http") ? "noreferrer" : undefined}
-                    className="text-sm font-semibold text-foreground hover:text-emerald-700 hover:underline"
+                    className="text-sm font-semibold text-foreground hover:text-brand-dark hover:underline"
                   >
                     {c.value}
                   </a>
@@ -183,7 +201,7 @@ export function Contact() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-3"
           >
-            <Card className="border-emerald-100 shadow-sm">
+            <Card className="border-brand/15 shadow-sm">
               <CardContent>
                 <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleSubmit} noValidate>
                   <div className="space-y-1.5">
@@ -216,7 +234,7 @@ export function Contact() {
                     <Input
                       id="subject"
                       name="subject"
-                      placeholder="e.g. Spine consultation"
+                      placeholder="e.g. MRI consultation"
                     />
                   </div>
                   <div className="space-y-1.5 sm:col-span-2">
@@ -224,7 +242,7 @@ export function Contact() {
                     <Textarea
                       id="message"
                       name="message"
-                      placeholder="Briefly describe your symptoms or what you'd like to discuss with Dr. Sugandha Priyadarshini."
+                      placeholder={`Briefly describe your symptoms or what you'd like to discuss with ${siteConfig.doctor.name}.`}
                       rows={5}
                       required
                     />
@@ -233,7 +251,7 @@ export function Contact() {
                     <Button
                       type="submit"
                       disabled={status === "submitting" || status === "success"}
-                      className="w-full bg-emerald-700 text-white hover:bg-emerald-800 disabled:opacity-70 sm:w-auto"
+                      className="w-full border-0 bg-brand-sheen text-white hover:brightness-110 disabled:opacity-70 sm:w-auto"
                     >
                       {status === "submitting" && (
                         <>

@@ -39,10 +39,11 @@ function Counter({
 
 export function Stats() {
   const siteConfig = useSiteConfig();
+  if (siteConfig.sections.stats.visible === false) return null;
   return (
     <section
       aria-label="Practice statistics"
-      className="relative overflow-hidden bg-emerald-700 text-emerald-50"
+      className="relative overflow-hidden bg-brand-sheen text-white"
     >
       <div
         className="absolute inset-0 bg-grid opacity-20"
@@ -62,7 +63,7 @@ export function Stats() {
               <div className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
                 <Counter value={stat.value} suffix={stat.suffix} />
               </div>
-              <p className="mt-2 text-xs font-medium uppercase tracking-wider text-emerald-100/80 sm:text-sm">
+              <p className="mt-2 text-xs font-medium uppercase tracking-wider text-white/90 sm:text-sm">
                 {stat.label}
               </p>
             </motion.div>

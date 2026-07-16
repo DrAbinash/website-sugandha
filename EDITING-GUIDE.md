@@ -17,9 +17,12 @@ Log in with the admin password.
 > **First time:** the temporary password is `sugandha2026`.
 > Change it soon — see section 4 below.
 
+There is also a small **"Site settings"** link at the very bottom of the
+website (in the footer) that takes you straight to the panel.
+
 ## 2. What you can change (everything!)
 
-The panel has six tabs:
+The panel has seven tabs:
 
 | Tab | What's inside |
 |---|---|
@@ -27,11 +30,34 @@ The panel has six tabs:
 | **Contact & Hours** | Phone, emergency number, email, WhatsApp, OPD timings |
 | **Hospital & Map** | Hospital name, address, Google Maps links |
 | **Services & Expertise** | The 6 service cards, investigation tags, "why choose us" highlights |
-| **Photos & Facilities** | The facility photo cards — upload new photos, edit titles |
+| **Photos & Facilities** | The **hero (top) photo** and the facility photo cards — upload new photos, edit titles |
 | **Stats & Social** | The numbers (years, cases), social media links |
+| **Design & Layout** | **Website colors** (rose gold by default, with one-click schemes), the **booking button link** (where "Book Appointment" goes — currently https://caredeoghar.com), **show/hide and reword every section**, menu labels, footer credit, search keywords |
 
 Edit anything, then press **Save changes** at the bottom.
 Refresh the website — your changes appear **immediately, no rebuild needed**.
+
+### Changing the website's colors
+
+Go to **Design & Layout → Website colors**. Either click a ready-made
+scheme (Rose Gold, Emerald, Ocean Blue…) or pick your own three colors.
+Save, then refresh the website — buttons, headings, backgrounds, and the
+footer all change together.
+
+### Changing where the Book buttons go
+
+Go to **Design & Layout → Booking button**. Every "Book Appointment" /
+"Book a Consultation" / "Book Online Now" button on the website opens the
+link you put here (in a new tab). It is set to `https://caredeoghar.com`.
+Put `#contact` there instead if you'd rather the buttons scroll to the
+contact form on the page (this only works while the Contact section is
+switched on in **Page sections**).
+
+### Hiding or rewording a section
+
+Go to **Design & Layout → Page sections**. Each section of the homepage has
+an on/off switch and editable badge / heading / sub-heading text. Menu items
+pointing to a hidden section disappear from the menu automatically.
 
 ## 3. Changing photos
 

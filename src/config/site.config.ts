@@ -1,4 +1,16 @@
 export const siteConfig = {
+  /** Where every "Book Appointment / Book Now" button points. */
+  booking: {
+    url: "https://caredeoghar.com",
+    label: "Book Appointment",
+    shortLabel: "Book a Consultation",
+  },
+  hero: {
+    image: "/hero-radiology.png",
+    imageAlt: "Advanced diagnostic imaging equipment at Care Diagnostics",
+    floatingCardTitle: "Emergency",
+    floatingCardText: "24×7 Cover",
+  },
   doctor: {
     name: "Dr. Sugandha Priyadarshini",
     prefix: "Dr.",
@@ -94,7 +106,81 @@ export const siteConfig = {
     { label: "Location", href: "#location" },
     { label: "Contact", href: "#contact" },
   ],
-  theme: { primary: "#a34355", primaryDark: "#853a49", accent: "#c9a24b" },
+  /**
+   * Per-section controls: hide a section entirely, or reword its badge,
+   * heading, and sub-heading — all editable from /admin → Design & Layout.
+   */
+  sections: {
+    stats: { visible: true },
+    about: { visible: true, badge: "About the Doctor" },
+    expertise: {
+      visible: true,
+      badge: "Areas of Expertise",
+      heading: "Specialized Diagnostic Imaging",
+      subheading:
+        "Comprehensive expertise across MRI, CT, ultrasound, and X-ray imaging — delivered with precision and compassion.",
+    },
+    highlights: {
+      visible: true,
+      badge: "Why Choose Us",
+      heading: "Care That Puts Patients First",
+      subheading:
+        "Every decision is guided by safety, precision, and the patient's long-term wellbeing.",
+    },
+    services: {
+      visible: true,
+      badge: "Conditions Treated",
+      heading: "Comprehensive Diagnostic Imaging Services",
+      subheading:
+        "From advanced 3T MRI to routine X-rays — expert imaging and accurate reporting for the full spectrum of diagnostic needs.",
+      ctaTitle: "Not sure which imaging study you need?",
+      ctaText: "Get an honest, no-pressure consultation from Dr. Sugandha Priyadarshini.",
+    },
+    facilities: {
+      visible: true,
+      badge: "Our Facilities",
+      heading: "Modern Infrastructure for Accurate Diagnosis",
+      subheading:
+        "A fully equipped diagnostic imaging centre with advanced MRI, CT, ultrasound, and digital X-ray facilities for comprehensive care.",
+    },
+    credentials: {
+      visible: true,
+      badge: "Education & Credentials",
+      heading: "A Foundation of Rigorous Medical Training",
+      subheading:
+        "Years of dedicated medical education and specialist training form the backbone of accurate, evidence-based diagnostic imaging.",
+    },
+    location: {
+      visible: true,
+      badge: "Location & Hours",
+      heading: "Find Us in Deoghar",
+      subheading:
+        "Conveniently located in Castairs Town, Deoghar — serving the people of Jharkhand with advanced diagnostic imaging services.",
+    },
+    contact: {
+      visible: true,
+      badge: "Get in Touch",
+      heading: "Book an Appointment",
+      subheading:
+        "Send us a message and our team will get back to you to schedule your consultation with Dr. Sugandha Priyadarshini.",
+    },
+  },
+  footer: {
+    creditLine: "Designed for Dr. Sugandha Priyadarshini, Consultant Radiologist",
+  },
+  seo: {
+    keywords: [
+      "Radiologist Deoghar",
+      "Dr Sugandha Priyadarshini",
+      "Radiology Jharkhand",
+      "3T MRI Deoghar",
+      "Women's imaging Deoghar",
+      "CT scan Deoghar",
+      "Care Diagnostics Deoghar",
+    ],
+  },
+  /** Site-wide colors. Rose gold by default; editable from /admin. */
+  theme: { primary: "#b76e79", primaryDark: "#96525d", accent: "#d4a373" },
 };
 
 export type SiteConfig = typeof siteConfig;

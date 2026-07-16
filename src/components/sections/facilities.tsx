@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function Facilities() {
   const siteConfig = useSiteConfig();
+  const section = siteConfig.sections.facilities;
+  if (section.visible === false) return null;
   return (
     <section
       id="facilities"
@@ -17,18 +19,17 @@ export function Facilities() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="mb-3 bg-emerald-100 text-emerald-800">
-            Our Facilities
+          <Badge variant="secondary" className="mb-3 bg-brand/10 text-brand-deep">
+            {section.badge}
           </Badge>
           <h2
             id="facilities-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            Modern Infrastructure for Accurate Diagnosis
+            {section.heading}
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            A fully equipped diagnostic imaging centre with advanced MRI, CT,
-            ultrasound, and digital X-ray facilities for comprehensive care.
+            {section.subheading}
           </p>
         </div>
 
@@ -41,16 +42,16 @@ export function Facilities() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45, delay: (i % 4) * 0.08 }}
             >
-              <Card className="group h-full overflow-hidden border-emerald-100 p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-900/10">
-                <div className="relative aspect-[4/3] overflow-hidden bg-emerald-100">
+              <Card className="group h-full overflow-hidden border-brand/15 p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-deep/10">
+                <div className="relative aspect-[4/3] overflow-hidden bg-brand/10">
                   <img
                     src={facility.image}
                     alt={facility.title}
                     loading="lazy"
                     className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/50 via-transparent to-transparent" />
-                  <span className="absolute left-3 top-3 inline-flex size-8 items-center justify-center rounded-full bg-white/90 text-emerald-700 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/50 via-transparent to-transparent" />
+                  <span className="absolute left-3 top-3 inline-flex size-8 items-center justify-center rounded-full bg-white/90 text-brand-dark opacity-0 transition-opacity group-hover:opacity-100">
                     <ArrowUpRight className="size-4" />
                   </span>
                 </div>

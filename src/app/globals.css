@@ -6,6 +6,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  /* Brand palette — driven by CSS variables so the admin panel can
+     re-theme the whole site at runtime (Design & Layout tab). */
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-deep: var(--brand-deep);
+  --color-gold: var(--brand-gold);
+  /* Lightened gold that stays readable on the dark footer. */
+  --color-gold-light: color-mix(in srgb, var(--brand-gold) 55%, white);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -45,14 +53,20 @@
 
 :root {
   --radius: 0.75rem;
+  /* Rose-gold brand colors (defaults — the /admin panel can override
+     these at runtime via an injected style tag in layout.tsx). */
+  --brand: #b76e79;        /* classic rose gold */
+  --brand-dark: #96525d;   /* deep rose — hovers, small text on light */
+  --brand-deep: #7c3f4a;   /* darkest — footer, strong contrast */
+  --brand-gold: #d4a373;   /* champagne gold accent */
   --background: oklch(0.99 0.006 25);
   --foreground: oklch(0.23 0.02 20);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.23 0.02 20);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.23 0.02 20);
-  /* Rose-gold primary (approx #a34355 → deep rose) */
-  --primary: oklch(0.52 0.11 12);
+  /* Primary follows the brand color so shadcn components re-theme too */
+  --primary: var(--brand-dark);
   --primary-foreground: oklch(0.99 0.005 20);
   --secondary: oklch(0.95 0.02 15);
   --secondary-foreground: oklch(0.35 0.06 15);
@@ -64,7 +78,7 @@
   --destructive: oklch(0.58 0.22 25);
   --border: oklch(0.91 0.012 20);
   --input: oklch(0.92 0.012 20);
-  --ring: oklch(0.52 0.11 12);
+  --ring: var(--brand);
   --chart-1: oklch(0.52 0.11 12);
   --chart-2: oklch(0.68 0.10 30);
   --chart-3: oklch(0.75 0.09 60);
@@ -90,13 +104,29 @@
   .text-balance { text-wrap: balance; }
   .bg-grid {
     background-image:
-      linear-gradient(to right, oklch(0.52 0.11 12 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.52 0.11 12 / 0.06) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in oklab, var(--brand) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--brand) 7%, transparent) 1px, transparent 1px);
     background-size: 40px 40px;
   }
-  /* Soft rose-gold radial wash used behind the hero.
-     (Class name kept as -emerald so existing markup keeps working.) */
-  .bg-radial-emerald {
-    background: radial-gradient(ellipse at top, oklch(0.95 0.035 20), oklch(0.99 0.006 25) 60%);
+  /* Soft rose-gold radial wash used behind the hero. */
+  .bg-radial-brand {
+    background: radial-gradient(
+      ellipse at top,
+      color-mix(in oklab, var(--brand) 12%, white),
+      var(--background) 60%
+    );
+  }
+  /* Rose-gold gradient headline treatment.
+     Every stop stays dark enough to read as large text on the hero wash. */
+  .text-gradient-brand {
+    background: linear-gradient(120deg, var(--brand-deep), var(--brand-dark) 55%, var(--brand));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Solid CTA surface: subtle rose-gold sheen for depth.
+     Starts from the dark shade so white button text keeps WCAG AA contrast. */
+  .bg-brand-sheen {
+    background-image: linear-gradient(135deg, var(--brand-dark), var(--brand-deep));
   }
 }
