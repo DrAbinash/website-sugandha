@@ -32,13 +32,30 @@ export function mergeConfig<T>(base: T, override: unknown): T {
   return override as T;
 }
 
+/**
+ * The theme snapshot the pre-rose-gold admin panel silently saved along with
+ * every edit (it had no color controls, so this exact triple can only mean
+ * "never customised"). Dropping it lets old installs pick up new defaults.
+ */
+const LEGACY_DEFAULT_THEME = { primary: "#a34355", primaryDark: "#853a49", accent: "#c9a24b" };
+
 /** Load saved overrides from the database (or null if none saved yet). */
 export async function loadSavedSettings(): Promise<Record<string, unknown> | null> {
   try {
     const row = await db.siteSetting.findUnique({ where: { id: "site" } });
     if (!row) return null;
     const parsed: unknown = JSON.parse(row.json);
-    return isPlainObject(parsed) ? parsed : null;
+    if (!isPlainObject(parsed)) return null;
+    const theme = parsed.theme;
+    if (
+      isPlainObject(theme) &&
+      theme.primary === LEGACY_DEFAULT_THEME.primary &&
+      theme.primaryDark === LEGACY_DEFAULT_THEME.primaryDark &&
+      theme.accent === LEGACY_DEFAULT_THEME.accent
+    ) {
+      delete parsed.theme;
+    }
+    return parsed;
   } catch (error) {
     console.error("[site-settings] failed to load saved settings", error);
     return null;

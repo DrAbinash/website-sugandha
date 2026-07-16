@@ -9,33 +9,34 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function Credentials() {
   const siteConfig = useSiteConfig();
+  const section = siteConfig.sections.credentials;
+  if (section.visible === false) return null;
   return (
     <section
       id="credentials"
-      className="bg-emerald-50/40 py-16 sm:py-20 lg:py-24"
+      className="bg-brand/5 py-16 sm:py-20 lg:py-24"
       aria-labelledby="credentials-heading"
     >
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="secondary" className="mb-3 bg-emerald-100 text-emerald-800">
-            Education &amp; Credentials
+          <Badge variant="secondary" className="mb-3 bg-brand/10 text-brand-deep">
+            {section.badge}
           </Badge>
           <h2
             id="credentials-heading"
             className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl"
           >
-            A Foundation of Rigorous Medical Training
+            {section.heading}
           </h2>
           <p className="mt-3 text-pretty text-muted-foreground">
-            Years of dedicated medical education and specialist training form the
-            backbone of accurate, evidence-based diagnostic imaging.
+            {section.subheading}
           </p>
         </div>
 
         <div className="relative mt-12">
           {/* Vertical line */}
           <div
-            className="absolute left-5 top-0 h-full w-px bg-emerald-200 sm:left-1/2 sm:-translate-x-1/2"
+            className="absolute left-5 top-0 h-full w-px bg-brand/25 sm:left-1/2 sm:-translate-x-1/2"
             aria-hidden="true"
           />
 
@@ -54,7 +55,7 @@ export function Credentials() {
                 >
                   {/* Dot + icon */}
                   <div
-                    className="absolute left-0 top-1 flex size-10 items-center justify-center rounded-full border-4 border-emerald-50 bg-emerald-700 text-white shadow-md sm:left-1/2 sm:-translate-x-1/2"
+                    className="absolute left-0 top-1 flex size-10 items-center justify-center rounded-full border-4 border-white bg-brand-sheen text-white shadow-md sm:left-1/2 sm:-translate-x-1/2"
                     aria-hidden="true"
                   >
                     <Icon className="size-4" />
@@ -67,9 +68,9 @@ export function Credentials() {
                         : "sm:col-start-2 sm:pl-8"
                     }
                   >
-                    <Card className="border-emerald-100">
+                    <Card className="border-brand/15 bg-white">
                       <CardContent className="py-4">
-                        <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+                        <p className="text-sm font-semibold uppercase tracking-wide text-brand-dark">
                           {edu.degree}
                         </p>
                         <p className="mt-1 text-sm text-muted-foreground">

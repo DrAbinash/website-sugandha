@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import {
   getSiteSettings,
@@ -40,6 +41,10 @@ export async function PUT(request: Request) {
     return NextResponse.json({ ok: false, error: "Could not save settings" }, { status: 500 });
   }
 
+  // Rebuild the statically-cached pages so the saved changes (content,
+  // colors, hidden sections) appear on the very next page load.
+  revalidatePath("/", "layout");
+
   return NextResponse.json({ ok: true });
 }
 
@@ -53,5 +58,6 @@ export async function DELETE() {
     console.error("[admin/settings] reset failed", error);
     return NextResponse.json({ ok: false, error: "Could not reset settings" }, { status: 500 });
   }
+  revalidatePath("/", "layout");
   return NextResponse.json({ ok: true });
 }

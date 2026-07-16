@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 
 export function About() {
   const siteConfig = useSiteConfig();
+  if (siteConfig.sections.about.visible === false) return null;
+  const bookingExternal = siteConfig.booking.url.startsWith("http");
   return (
     <section
       id="about"
@@ -26,8 +28,8 @@ export function About() {
             transition={{ duration: 0.6 }}
             className="relative mx-auto w-full max-w-md"
           >
-            <div className="absolute -inset-3 -z-10 rounded-3xl bg-emerald-100" />
-            <div className="overflow-hidden rounded-3xl border-4 border-white bg-emerald-50 shadow-xl">
+            <div className="absolute -inset-3 -z-10 rounded-3xl bg-gradient-to-br from-brand/20 via-brand/10 to-gold/25" />
+            <div className="overflow-hidden rounded-3xl border-4 border-white bg-brand/5 shadow-xl">
               <img
                 src={siteConfig.doctor.photo}
                 alt={`${siteConfig.doctor.name}, ${siteConfig.doctor.title}`}
@@ -36,7 +38,7 @@ export function About() {
               />
             </div>
             <div className="absolute -bottom-5 -right-3 rounded-2xl border border-border bg-background p-4 shadow-lg sm:-right-5">
-              <div className="text-2xl font-extrabold text-emerald-700">
+              <div className="text-2xl font-extrabold text-brand-dark">
                 {siteConfig.doctor.yearsOfExperience}+
               </div>
               <p className="text-xs text-muted-foreground">
@@ -52,8 +54,8 @@ export function About() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6 }}
           >
-            <Badge variant="secondary" className="mb-3 bg-emerald-100 text-emerald-800">
-              About the Doctor
+            <Badge variant="secondary" className="mb-3 bg-brand/10 text-brand-deep">
+              {siteConfig.sections.about.badge}
             </Badge>
             <h2
               id="about-heading"
@@ -61,7 +63,7 @@ export function About() {
             >
               {siteConfig.doctor.name}
             </h2>
-            <p className="mt-2 text-lg font-semibold text-emerald-800">
+            <p className="mt-2 text-lg font-semibold text-brand-dark">
               {siteConfig.doctor.title}
             </p>
 
@@ -73,9 +75,9 @@ export function About() {
               ))}
             </div>
 
-            <Card className="mt-6 border-emerald-100 bg-emerald-50/50">
+            <Card className="mt-6 border-brand/15 bg-brand/5">
               <CardContent className="py-4">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand-deep">
                   Qualifications &amp; Training
                 </p>
                 <ul className="grid gap-2 sm:grid-cols-2">
@@ -84,7 +86,7 @@ export function About() {
                       key={q}
                       className="flex items-start gap-2 text-sm text-foreground"
                     >
-                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-brand" />
                       <span>{q}</span>
                     </li>
                   ))}
@@ -95,10 +97,14 @@ export function About() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button
                 asChild
-                className="bg-emerald-700 hover:bg-emerald-800"
+                className="border-0 bg-brand-sheen text-white shadow-md shadow-brand/25 hover:brightness-110"
               >
-                <a href="#contact">
-                  Book a Consultation
+                <a
+                  href={siteConfig.booking.url}
+                  target={bookingExternal ? "_blank" : undefined}
+                  rel={bookingExternal ? "noreferrer" : undefined}
+                >
+                  {siteConfig.booking.shortLabel}
                   <ArrowRight className="size-4" />
                 </a>
               </Button>

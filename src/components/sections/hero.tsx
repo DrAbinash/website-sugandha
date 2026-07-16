@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 
 export function Hero() {
   const siteConfig = useSiteConfig();
+  const bookingExternal = siteConfig.booking.url.startsWith("http");
+  const lastStat = siteConfig.stats[siteConfig.stats.length - 1];
 
   const trustItems = [
     { icon: ShieldCheck, label: siteConfig.doctor.qualifications.slice(-1)[0] ?? "MD Radiology" },
@@ -19,17 +21,17 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-radial-emerald"
+      className="relative overflow-hidden bg-radial-brand"
       aria-labelledby="hero-heading"
     >
       {/* Decorative grid */}
       <div className="absolute inset-0 bg-grid opacity-60" aria-hidden="true" />
       <div
-        className="absolute -top-24 -right-24 size-72 rounded-full bg-emerald-200/40 blur-3xl"
+        className="absolute -top-24 -right-24 size-72 rounded-full bg-brand/15 blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-32 -left-24 size-80 rounded-full bg-emerald-100/60 blur-3xl"
+        className="absolute -bottom-32 -left-24 size-80 rounded-full bg-gold/20 blur-3xl"
         aria-hidden="true"
       />
 
@@ -43,9 +45,9 @@ export function Hero() {
           >
             <Badge
               variant="secondary"
-              className="mb-4 gap-1.5 bg-emerald-100 text-emerald-800"
+              className="mb-4 gap-1.5 bg-brand/10 text-brand-deep"
             >
-              <span className="size-1.5 rounded-full bg-emerald-600" />
+              <span className="size-1.5 rounded-full bg-brand" />
               {siteConfig.hospital.shortName}
             </Badge>
           </motion.div>
@@ -55,16 +57,16 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-balance text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+            className="text-balance text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
           >
-            {siteConfig.doctor.name}
+            <span className="text-gradient-brand">{siteConfig.doctor.name}</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-3 text-lg font-semibold text-emerald-800 sm:text-xl"
+            className="mt-3 text-lg font-semibold text-brand-dark sm:text-xl"
           >
             {siteConfig.doctor.title}
           </motion.p>
@@ -79,7 +81,7 @@ export function Hero() {
               <Badge
                 key={q}
                 variant="outline"
-                className="border-emerald-200 bg-white/70 text-emerald-900"
+                className="border-brand/25 bg-white/70 text-brand-deep"
               >
                 {q}
               </Badge>
@@ -104,14 +106,18 @@ export function Hero() {
             <Button
               asChild
               size="lg"
-              className="bg-emerald-700 text-white hover:bg-emerald-800"
+              className="border-0 bg-brand-sheen text-white shadow-lg shadow-brand/30 hover:brightness-110"
             >
-              <a href="#contact">
+              <a
+                href={siteConfig.booking.url}
+                target={bookingExternal ? "_blank" : undefined}
+                rel={bookingExternal ? "noreferrer" : undefined}
+              >
                 <Calendar className="size-4" />
-                Book Appointment
+                {siteConfig.booking.label}
               </a>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="border-brand/30 hover:bg-brand/5">
               <a href="#expertise">
                 Explore Expertise
                 <ArrowRight className="size-4" />
@@ -128,9 +134,9 @@ export function Hero() {
             {trustItems.map((t) => (
               <div
                 key={t.label}
-                className="flex items-center gap-1.5 text-xs font-medium text-emerald-900/80 sm:text-sm"
+                className="flex items-center gap-1.5 text-xs font-medium text-brand-deep/90 sm:text-sm"
               >
-                <t.icon className="size-4 text-emerald-700" />
+                <t.icon className="size-4 text-brand" />
                 {t.label}
               </div>
             ))}
@@ -145,14 +151,14 @@ export function Hero() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="relative mx-auto max-w-md md:max-w-none"
           >
-            <div className="relative overflow-hidden rounded-3xl border border-emerald-100 bg-white shadow-2xl shadow-emerald-900/10">
+            <div className="relative overflow-hidden rounded-3xl border border-brand/15 bg-white shadow-2xl shadow-brand-deep/15">
               <img
-                src="/hero-radiology.png"
-                alt="Advanced diagnostic imaging equipment at Care Diagnostics"
+                src={siteConfig.hero.image}
+                alt={siteConfig.hero.imageAlt}
                 className="aspect-[4/5] w-full object-cover sm:aspect-[5/4] md:aspect-[4/5]"
                 loading="eager"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/40 via-transparent to-transparent" />
             </div>
 
             {/* Floating stat card top-left */}
@@ -163,32 +169,35 @@ export function Hero() {
               className="absolute -left-4 top-6 hidden rounded-2xl border border-border/60 bg-background/95 p-4 shadow-xl backdrop-blur-sm sm:block"
             >
               <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+                <div className="flex size-10 items-center justify-center rounded-xl bg-brand/10 text-brand-dark">
                   <Ambulance className="size-5" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground">Emergency</p>
+                  <p className="text-xs text-muted-foreground">
+                    {siteConfig.hero.floatingCardTitle}
+                  </p>
                   <p className="text-sm font-semibold text-foreground">
-                    24×7 Cover
+                    {siteConfig.hero.floatingCardText}
                   </p>
                 </div>
               </div>
             </motion.div>
 
             {/* Floating stat card bottom-right */}
-            <motion.div
-              initial={{ opacity: 0, x: 20, y: 10 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute -right-4 bottom-6 hidden rounded-2xl border border-border/60 bg-background/95 p-4 shadow-xl backdrop-blur-sm sm:block"
-            >
-              <p className="text-2xl font-extrabold text-emerald-700">
-                20000<span className="text-base align-top">+</span>
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Imaging Studies Reported
-              </p>
-            </motion.div>
+            {lastStat && (
+              <motion.div
+                initial={{ opacity: 0, x: 20, y: 10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="absolute -right-4 bottom-6 hidden rounded-2xl border border-border/60 bg-background/95 p-4 shadow-xl backdrop-blur-sm sm:block"
+              >
+                <p className="text-2xl font-extrabold text-brand-dark">
+                  {lastStat.value.toLocaleString("en-IN")}
+                  <span className="text-base align-top">{lastStat.suffix}</span>
+                </p>
+                <p className="text-xs text-muted-foreground">{lastStat.label}</p>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>

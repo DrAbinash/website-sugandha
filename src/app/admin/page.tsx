@@ -25,7 +25,36 @@ import {
   IconPicker,
   ListItemCard,
   AddButton,
+  ColorField,
+  SwitchField,
 } from "@/components/admin/field-helpers";
+
+/** One-click color schemes for the whole website. */
+const THEME_PRESETS = [
+  { name: "Rose Gold", primary: "#b76e79", primaryDark: "#96525d", accent: "#d4a373" },
+  { name: "Emerald", primary: "#047857", primaryDark: "#065f46", accent: "#c9a24b" },
+  { name: "Ocean Blue", primary: "#1d6fa5", primaryDark: "#155a87", accent: "#e0b96a" },
+  { name: "Royal Purple", primary: "#7c5295", primaryDark: "#63407a", accent: "#d4a373" },
+  { name: "Teal", primary: "#0d9488", primaryDark: "#0f766e", accent: "#d4a373" },
+  { name: "Burgundy", primary: "#8d3b4b", primaryDark: "#722f3d", accent: "#c9a24b" },
+] as const;
+
+/** The homepage sections that can be renamed / hidden from the admin panel. */
+const SECTION_META: {
+  key: keyof EditableSiteConfig["sections"];
+  name: string;
+  note?: string;
+}[] = [
+  { key: "stats", name: "Statistics band", note: "The numbers strip under the hero" },
+  { key: "about", name: "About the doctor" },
+  { key: "expertise", name: "Areas of expertise" },
+  { key: "highlights", name: "Why choose us" },
+  { key: "services", name: "Investigations / services" },
+  { key: "facilities", name: "Facilities photo cards" },
+  { key: "credentials", name: "Education & credentials" },
+  { key: "location", name: "Location, map & hours" },
+  { key: "contact", name: "Contact & appointment form" },
+];
 
 type AuthState = "checking" | "login" | "ready";
 
@@ -130,7 +159,7 @@ export default function AdminPage() {
   if (authState === "checking") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="size-8 animate-spin text-emerald-600" />
+        <Loader2 className="size-8 animate-spin text-brand" />
       </div>
     );
   }
@@ -187,6 +216,7 @@ export default function AdminPage() {
             <TabsTrigger value="services">Services &amp; Expertise</TabsTrigger>
             <TabsTrigger value="photos">Photos &amp; Facilities</TabsTrigger>
             <TabsTrigger value="more">Stats &amp; Social</TabsTrigger>
+            <TabsTrigger value="design">Design &amp; Layout</TabsTrigger>
           </TabsList>
 
           {/* ───────────────────────── Doctor & About ───────────────────────── */}
@@ -605,6 +635,42 @@ export default function AdminPage() {
           <TabsContent value="photos" className="space-y-4">
             <Card>
               <CardHeader>
+                <CardTitle className="text-base">Top-of-page (hero) photo</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <ImageUpload
+                    label="Hero photo (right side of the top section)"
+                    value={settings.hero.image}
+                    onChange={(url) => mutate((d) => (d.hero.image = url))}
+                    hint="A tall photo (portrait) works best here. JPG or PNG, up to 8 MB."
+                    aspect="aspect-[4/5]"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <TextField
+                    label="Photo description (for accessibility and Google)"
+                    value={settings.hero.imageAlt}
+                    onChange={(v) => mutate((d) => (d.hero.imageAlt = v))}
+                  />
+                </div>
+                <TextField
+                  label="Floating card — small title"
+                  value={settings.hero.floatingCardTitle}
+                  onChange={(v) => mutate((d) => (d.hero.floatingCardTitle = v))}
+                  hint='e.g. "Emergency"'
+                />
+                <TextField
+                  label="Floating card — text"
+                  value={settings.hero.floatingCardText}
+                  onChange={(v) => mutate((d) => (d.hero.floatingCardText = v))}
+                  hint='e.g. "24×7 Cover"'
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle className="text-base">Facility photo cards</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -757,6 +823,199 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* ───────────────────── Design & Layout ───────────────────── */}
+          <TabsContent value="design" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Website colors</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="mb-2 text-sm font-medium">Quick color schemes</p>
+                  <div className="flex flex-wrap gap-2">
+                    {THEME_PRESETS.map((preset) => (
+                      <button
+                        key={preset.name}
+                        type="button"
+                        onClick={() =>
+                          mutate((d) => {
+                            d.theme.primary = preset.primary;
+                            d.theme.primaryDark = preset.primaryDark;
+                            d.theme.accent = preset.accent;
+                          })
+                        }
+                        className="flex items-center gap-2 rounded-lg border bg-background px-3 py-2 text-sm font-medium transition-colors hover:border-brand/50 hover:bg-brand/5"
+                      >
+                        <span className="flex overflow-hidden rounded-full border">
+                          <span className="size-4" style={{ backgroundColor: preset.primary }} />
+                          <span className="size-4" style={{ backgroundColor: preset.primaryDark }} />
+                          <span className="size-4" style={{ backgroundColor: preset.accent }} />
+                        </span>
+                        {preset.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <ColorField
+                    label="Main color"
+                    value={settings.theme.primary}
+                    onChange={(v) => mutate((d) => (d.theme.primary = v))}
+                    hint="Buttons, icons, section tints"
+                  />
+                  <ColorField
+                    label="Dark shade"
+                    value={settings.theme.primaryDark}
+                    onChange={(v) => mutate((d) => (d.theme.primaryDark = v))}
+                    hint="Hover states, small text, footer"
+                  />
+                  <ColorField
+                    label="Gold accent"
+                    value={settings.theme.accent}
+                    onChange={(v) => mutate((d) => (d.theme.accent = v))}
+                    hint="Highlights and footer headings"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Save and refresh the website to see the new colors applied everywhere.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Booking button</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <TextField
+                    label="Booking link (where every Book button goes)"
+                    value={settings.booking.url}
+                    onChange={(v) => mutate((d) => (d.booking.url = v))}
+                    hint="Full web address, e.g. https://caredeoghar.com — or #contact to scroll to the contact form instead (only works while the Contact section is switched on)."
+                  />
+                  {(() => {
+                    const url = settings.booking.url.trim();
+                    if (!url.startsWith("#")) return null;
+                    const target = settings.sections as unknown as Record<
+                      string,
+                      { visible?: boolean } | undefined
+                    >;
+                    if (target[url.slice(1)]?.visible !== false) return null;
+                    return (
+                      <p className="mt-1.5 text-xs font-medium text-red-600">
+                        This link points to a section that is switched off below — every Book
+                        button will do nothing. Show the section again or use a full web
+                        address.
+                      </p>
+                    );
+                  })()}
+                </div>
+                <TextField
+                  label="Main button text"
+                  value={settings.booking.label}
+                  onChange={(v) => mutate((d) => (d.booking.label = v))}
+                  hint='Shown in the top bar and hero, e.g. "Book Appointment"'
+                />
+                <TextField
+                  label="Secondary button text"
+                  value={settings.booking.shortLabel}
+                  onChange={(v) => mutate((d) => (d.booking.shortLabel = v))}
+                  hint='Used mid-page, e.g. "Book a Consultation"'
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Page sections — show, hide &amp; reword</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {SECTION_META.map(({ key, name, note }) => {
+                  const sec = settings.sections[key] as Record<string, string | boolean>;
+                  const setField = (field: string) => (v: string) =>
+                    mutate((d) => {
+                      (d.sections[key] as Record<string, string | boolean>)[field] = v;
+                    });
+                  return (
+                    <div key={key} className="rounded-lg border bg-card p-4">
+                      <SwitchField
+                        label={name}
+                        hint={note ?? (sec.visible === false ? "Hidden from the website" : "Shown on the website")}
+                        checked={sec.visible !== false}
+                        onChange={(v) =>
+                          mutate((d) => {
+                            (d.sections[key] as Record<string, string | boolean>).visible = v;
+                          })
+                        }
+                      />
+                      {sec.visible !== false && typeof sec.badge === "string" && (
+                        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                          <TextField label="Small badge" value={sec.badge} onChange={setField("badge")} />
+                          {typeof sec.heading === "string" && (
+                            <TextField label="Heading" value={sec.heading} onChange={setField("heading")} />
+                          )}
+                          {typeof sec.subheading === "string" && (
+                            <div className="sm:col-span-2">
+                              <TextAreaField
+                                label="Sub-heading"
+                                rows={2}
+                                value={sec.subheading}
+                                onChange={setField("subheading")}
+                              />
+                            </div>
+                          )}
+                          {typeof sec.ctaTitle === "string" && (
+                            <TextField label="Banner title" value={sec.ctaTitle} onChange={setField("ctaTitle")} />
+                          )}
+                          {typeof sec.ctaText === "string" && (
+                            <TextField label="Banner text" value={sec.ctaText} onChange={setField("ctaText")} />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Menu labels</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-3 sm:grid-cols-2">
+                {settings.nav.map((item, i) => (
+                  <TextField
+                    key={item.href}
+                    label={`Menu item ${i + 1} (${item.href.replace("#", "")})`}
+                    value={item.label}
+                    onChange={(v) => mutate((d) => (d.nav[i].label = v))}
+                  />
+                ))}
+                <p className="text-xs text-muted-foreground sm:col-span-2">
+                  Menu items linking to a hidden section disappear from the menu automatically.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Footer &amp; search engines</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <TextField
+                  label="Footer credit line"
+                  value={settings.footer.creditLine}
+                  onChange={(v) => mutate((d) => (d.footer.creditLine = v))}
+                />
+                <KeywordsField
+                  value={settings.seo.keywords}
+                  onChange={(arr) => mutate((d) => (d.seo.keywords = arr))}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </main>
 
@@ -765,7 +1024,7 @@ export default function AdminPage() {
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <div className="min-w-0 text-sm">
             {saveMessage && (
-              <p className="flex items-center gap-1.5 text-emerald-700">
+              <p className="flex items-center gap-1.5 text-green-700">
                 <CheckCircle2 className="size-4 shrink-0" />
                 <span className="truncate">{saveMessage}</span>
               </p>
@@ -777,7 +1036,7 @@ export default function AdminPage() {
               </p>
             )}
           </div>
-          <Button onClick={handleSave} disabled={saving} className="shrink-0 bg-emerald-700 hover:bg-emerald-800">
+          <Button onClick={handleSave} disabled={saving} className="shrink-0 border-0 bg-brand-sheen text-white hover:brightness-110">
             {saving ? (
               <Loader2 className="mr-2 size-4 animate-spin" />
             ) : (
@@ -788,6 +1047,49 @@ export default function AdminPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+/* ─────────────────────────── Keywords field ───────────────────────────── */
+
+function parseKeywords(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Keeps the text you type (including trailing commas) while storing the
+ * cleaned-up list — a plain controlled field would swallow commas as you type.
+ */
+function KeywordsField({
+  value,
+  onChange,
+}: {
+  value: string[];
+  onChange: (v: string[]) => void;
+}) {
+  const [raw, setRaw] = React.useState(value.join(", "));
+  const [lastValue, setLastValue] = React.useState(value);
+  // External change (e.g. "Reset website") — re-seed the text from the data.
+  if (JSON.stringify(lastValue) !== JSON.stringify(value)) {
+    setLastValue(value);
+    if (JSON.stringify(parseKeywords(raw)) !== JSON.stringify(value)) {
+      setRaw(value.join(", "));
+    }
+  }
+  return (
+    <TextAreaField
+      label="Search keywords (separate with commas)"
+      rows={3}
+      value={raw}
+      onChange={(v) => {
+        setRaw(v);
+        onChange(parseKeywords(v));
+      }}
+      hint="Helps Google understand what the website is about."
+    />
   );
 }
 
@@ -831,7 +1133,7 @@ function LoginScreen({
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+          <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-brand/10 text-brand-dark">
             <Lock className="size-6" />
           </div>
           <CardTitle className="text-lg">Website Settings</CardTitle>
@@ -858,7 +1160,7 @@ function LoginScreen({
             </p>
           )}
           <Button
-            className="w-full bg-emerald-700 hover:bg-emerald-800"
+            className="w-full border-0 bg-brand-sheen text-white hover:brightness-110"
             disabled={busy || !password}
             onClick={handleLogin}
           >

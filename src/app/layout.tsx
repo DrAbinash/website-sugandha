@@ -10,6 +10,12 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carediagnostics.in";
 
+// Only allow real hex colors into the injected <style> tag.
+const HEX_COLOR = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+function safeColor(value: string | undefined, fallback: string): string {
+  return value && HEX_COLOR.test(value.trim()) ? value.trim() : fallback;
+}
+
 // SEO metadata is generated from the live settings so edits made in the
 // /admin panel (name, bio, hospital) update search-engine info too.
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(siteUrl),
     title: `${siteConfig.doctor.name}, ${siteConfig.doctor.qualifications.slice(0, 3).join(", ")} — ${siteConfig.doctor.title} | ${siteConfig.hospital.shortName}`,
     description: siteConfig.doctor.shortBio,
-    keywords: ["Radiologist Deoghar", "Dr Sugandha Priyadarshini", "Radiology Jharkhand", "3T MRI Deoghar", "Women's imaging Deoghar", "CT scan Deoghar", "Care Diagnostics Deoghar"],
+    keywords: siteConfig.seo.keywords,
     authors: [{ name: siteConfig.doctor.name }],
     creator: siteConfig.hospital.name,
     publisher: siteConfig.hospital.name,
@@ -53,6 +59,11 @@ export async function generateViewport(): Promise<Viewport> {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const siteConfig = await getSiteSettings();
+  // Brand colors saved in /admin re-theme the whole site via CSS variables.
+  const brand = safeColor(siteConfig.theme.primary, "#b76e79");
+  const brandDark = safeColor(siteConfig.theme.primaryDark, "#96525d");
+  const brandGold = safeColor(siteConfig.theme.accent, "#d4a373");
+  const themeCss = `:root{--brand:${brand};--brand-dark:${brandDark};--brand-deep:color-mix(in oklab,${brandDark} 78%,black);--brand-gold:${brandGold};}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -90,6 +101,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <style dangerouslySetInnerHTML={{ __html: themeCss }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>

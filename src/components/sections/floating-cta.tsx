@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, MessageCircle, CalendarCheck } from "lucide-react";
 
 import { useSiteConfig } from "@/components/site-config-context";
 
@@ -18,6 +18,7 @@ export function FloatingCta() {
   }, []);
 
   const waHref = `https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`;
+  const bookingExternal = siteConfig.booking.url.startsWith("http");
 
   return (
     <AnimatePresence>
@@ -31,18 +32,27 @@ export function FloatingCta() {
           aria-label="Quick contact actions"
         >
           <a
+            href={siteConfig.booking.url}
+            target={bookingExternal ? "_blank" : undefined}
+            rel={bookingExternal ? "noreferrer" : undefined}
+            aria-label={siteConfig.booking.label}
+            className="flex size-12 items-center justify-center rounded-full bg-brand-sheen text-white shadow-lg shadow-brand-deep/25 transition-transform hover:scale-105"
+          >
+            <CalendarCheck className="size-5" />
+          </a>
+          <a
             href={waHref}
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className="flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-emerald-900/20 transition-transform hover:scale-105"
+            className="flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-brand-deep/20 transition-transform hover:scale-105"
           >
             <MessageCircle className="size-5" />
           </a>
           <a
             href={`tel:${siteConfig.contact.phoneHref}`}
             aria-label="Call clinic"
-            className="flex size-12 items-center justify-center rounded-full bg-emerald-700 text-white shadow-lg shadow-emerald-900/20 transition-transform hover:scale-105"
+            className="flex size-12 items-center justify-center rounded-full bg-brand-dark text-white shadow-lg shadow-brand-deep/25 transition-transform hover:scale-105"
           >
             <Phone className="size-5" />
           </a>
