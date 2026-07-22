@@ -89,6 +89,27 @@ export const siteConfig = {
     { image: "/gallery-consult.jpg", title: "Ultrasound Room", description: "Advanced ultrasound machines for abdominal, obstetric, Doppler, and women's imaging with patient comfort." },
     { image: "/gallery-hospital.jpg", title: "Care Diagnostics", description: "A fully equipped diagnostic imaging center serving Deoghar and surrounding regions of Jharkhand." },
   ],
+  /**
+   * Photo gallery — one or more albums, each shown as a card on the homepage
+   * that opens its own /gallery/<slug> page. Add albums and upload photos
+   * from /admin → Gallery. `slug` is the permanent URL for an album.
+   */
+  gallery: {
+    collections: [
+      {
+        slug: "centre",
+        title: "Our Diagnostic Centre",
+        subtitle: "A look inside our MRI, CT, and ultrasound facilities.",
+        layout: "masonry",
+        photos: [
+          { src: "/gallery-ot.jpg", caption: "3 Tesla MRI suite" },
+          { src: "/gallery-icu.jpg", caption: "CT scan facility" },
+          { src: "/gallery-consult.jpg", caption: "Ultrasound room" },
+          { src: "/gallery-hospital.jpg", caption: "Care Diagnostics" },
+        ],
+      },
+    ],
+  },
   stats: [
     { label: "Years of Radiology Experience", value: 8, suffix: "+" },
     { label: "MRI Studies Reported", value: 5000, suffix: "+" },
@@ -102,6 +123,7 @@ export const siteConfig = {
     { label: "Expertise", href: "#expertise" },
     { label: "Services", href: "#services" },
     { label: "Facilities", href: "#facilities" },
+    { label: "Gallery", href: "#gallery" },
     { label: "Credentials", href: "#credentials" },
     { label: "Location", href: "#location" },
     { label: "Contact", href: "#contact" },
@@ -142,6 +164,13 @@ export const siteConfig = {
       heading: "Modern Infrastructure for Accurate Diagnosis",
       subheading:
         "A fully equipped diagnostic imaging centre with advanced MRI, CT, ultrasound, and digital X-ray facilities for comprehensive care.",
+    },
+    gallery: {
+      visible: true,
+      badge: "Gallery",
+      heading: "Photo Gallery",
+      subheading:
+        "A glimpse of our diagnostic centre, equipment, and the care we provide — browse the albums below.",
     },
     credentials: {
       visible: true,

@@ -12,6 +12,7 @@ const SECTION_FOR_HREF: Partial<Record<string, keyof SiteConfig["sections"]>> = 
   "#expertise": "expertise",
   "#services": "services",
   "#facilities": "facilities",
+  "#gallery": "gallery",
   "#credentials": "credentials",
   "#location": "location",
   "#contact": "contact",
