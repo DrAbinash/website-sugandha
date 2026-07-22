@@ -6,6 +6,7 @@ import { Expertise } from "@/components/sections/expertise";
 import { Highlights } from "@/components/sections/highlights";
 import { Services } from "@/components/sections/services";
 import { Facilities } from "@/components/sections/facilities";
+import { Gallery } from "@/components/sections/gallery";
 import { Credentials } from "@/components/sections/credentials";
 import { Location } from "@/components/sections/location";
 import { Contact } from "@/components/sections/contact";
@@ -24,6 +25,7 @@ export default function Home() {
         <Highlights />
         <Services />
         <Facilities />
+        <Gallery />
         <Credentials />
         <Location />
         <Contact />

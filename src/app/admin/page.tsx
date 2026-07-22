@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { type EditableSiteConfig } from "@/lib/site-settings";
+import { slugify, uniqueSlug } from "@/lib/gallery";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -51,6 +52,7 @@ const SECTION_META: {
   { key: "highlights", name: "Why choose us" },
   { key: "services", name: "Investigations / services" },
   { key: "facilities", name: "Facilities photo cards" },
+  { key: "gallery", name: "Photo gallery" },
   { key: "credentials", name: "Education & credentials" },
   { key: "location", name: "Location, map & hours" },
   { key: "contact", name: "Contact & appointment form" },
@@ -215,6 +217,7 @@ export default function AdminPage() {
             <TabsTrigger value="hospital">Hospital &amp; Map</TabsTrigger>
             <TabsTrigger value="services">Services &amp; Expertise</TabsTrigger>
             <TabsTrigger value="photos">Photos &amp; Facilities</TabsTrigger>
+            <TabsTrigger value="gallery">Gallery</TabsTrigger>
             <TabsTrigger value="more">Stats &amp; Social</TabsTrigger>
             <TabsTrigger value="design">Design &amp; Layout</TabsTrigger>
           </TabsList>
@@ -723,6 +726,162 @@ export default function AdminPage() {
                     mutate((d) =>
                       d.facilities.push({ image: "", title: "", description: "" })
                     )
+                  }
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* ───────────────────────── Gallery ───────────────────────── */}
+          <TabsContent value="gallery" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Photo gallery albums</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Each album appears as a card on the homepage Gallery section and opens its own
+                  page. The first photo is used as the album cover. Turn the whole Gallery section
+                  on or off under <span className="font-medium">Design &amp; Layout</span>.
+                </p>
+
+                {(settings.gallery?.collections ?? []).map((collection, ci) => (
+                  <ListItemCard
+                    key={collection.slug}
+                    title={collection.title || `Album ${ci + 1}`}
+                    onRemove={() => mutate((d) => d.gallery.collections.splice(ci, 1))}
+                    onMoveUp={
+                      ci > 0
+                        ? () =>
+                            mutate((d) => {
+                              const [item] = d.gallery.collections.splice(ci, 1);
+                              d.gallery.collections.splice(ci - 1, 0, item);
+                            })
+                        : undefined
+                    }
+                    onMoveDown={
+                      ci < (settings.gallery?.collections.length ?? 0) - 1
+                        ? () =>
+                            mutate((d) => {
+                              const [item] = d.gallery.collections.splice(ci, 1);
+                              d.gallery.collections.splice(ci + 1, 0, item);
+                            })
+                        : undefined
+                    }
+                  >
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <TextField
+                        label="Album name"
+                        value={collection.title}
+                        onChange={(v) => mutate((d) => (d.gallery.collections[ci].title = v))}
+                      />
+                      <div>
+                        <p className="mb-1.5 text-sm font-medium">Photo layout</p>
+                        <div className="flex gap-2">
+                          {(["masonry", "grid"] as const).map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() =>
+                                mutate((d) => (d.gallery.collections[ci].layout = opt))
+                              }
+                              className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium capitalize transition-colors ${
+                                collection.layout === opt
+                                  ? "border-brand bg-brand/10 text-brand-deep"
+                                  : "hover:bg-muted"
+                              }`}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <TextAreaField
+                      label="One-line intro"
+                      rows={2}
+                      value={collection.subtitle}
+                      onChange={(v) => mutate((d) => (d.gallery.collections[ci].subtitle = v))}
+                    />
+
+                    <div className="space-y-3">
+                      {collection.photos.map((photo, pi) => (
+                        <div key={pi} className="rounded-lg border bg-muted/30 p-3">
+                          <div className="mb-2 flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">
+                              Photo {pi + 1}
+                              {pi === 0 ? " (cover)" : ""}
+                            </span>
+                            <div className="flex items-center gap-1">
+                              {pi > 0 && (
+                                <button
+                                  type="button"
+                                  className="rounded px-2 py-1 text-xs text-muted-foreground hover:bg-muted"
+                                  onClick={() =>
+                                    mutate((d) => {
+                                      const ph = d.gallery.collections[ci].photos;
+                                      const [x] = ph.splice(pi, 1);
+                                      ph.splice(pi - 1, 0, x);
+                                    })
+                                  }
+                                >
+                                  Move up
+                                </button>
+                              )}
+                              <button
+                                type="button"
+                                className="rounded px-2 py-1 text-xs text-red-600 hover:bg-red-50"
+                                onClick={() =>
+                                  mutate((d) => d.gallery.collections[ci].photos.splice(pi, 1))
+                                }
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          </div>
+                          <ImageUpload
+                            label=""
+                            value={photo.src}
+                            onChange={(url) =>
+                              mutate((d) => (d.gallery.collections[ci].photos[pi].src = url))
+                            }
+                            hint="Landscape or portrait — any shape works. JPG or PNG, up to 8 MB."
+                          />
+                          <TextField
+                            label="Caption (optional)"
+                            value={photo.caption}
+                            onChange={(v) =>
+                              mutate((d) => (d.gallery.collections[ci].photos[pi].caption = v))
+                            }
+                          />
+                        </div>
+                      ))}
+                      <AddButton
+                        label="Add photo"
+                        onClick={() =>
+                          mutate((d) =>
+                            d.gallery.collections[ci].photos.push({ src: "", caption: "" })
+                          )
+                        }
+                      />
+                    </div>
+                  </ListItemCard>
+                ))}
+
+                <AddButton
+                  label="Add album"
+                  onClick={() =>
+                    mutate((d) => {
+                      const taken = new Set(d.gallery.collections.map((c) => c.slug));
+                      const slug = uniqueSlug(slugify("album"), taken);
+                      d.gallery.collections.push({
+                        slug,
+                        title: "New album",
+                        subtitle: "",
+                        layout: "masonry",
+                        photos: [],
+                      });
+                    })
                   }
                 />
               </CardContent>
